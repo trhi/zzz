@@ -1,5 +1,5 @@
-git status
-= [];
+
+var stars = [];
 //let color;
 
 function setup() {
@@ -33,15 +33,15 @@ function draw() {
 // star class //
 class Star {
 	constructor() {
-		this.x = random(windowWidth-20);
-		this.y = random(windowHeight-20);
+		this.x = random(20, windowWidth-20);
+		this.y = random(20, windowHeight-20);
 		this.size = 5;
 		this.t = random(TAU);
 	}
 
 	draw() {
 		this.t += 0.1;
-		var scale = this.size + sin(this.t) * 6;
+		var scale = this.size + sin(this.t) * 4;
 		noStroke();
 
 
