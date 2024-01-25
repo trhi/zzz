@@ -1,0 +1,71 @@
+@font-face {
+  font-family: openSans;
+  src: url("../fonts/OpenSans-VariableFont_wdth,wght.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body{
+ background-color: black;
+ justify-content: center;
+ align-items: center;
+ height: 100vh;
+ margin: 0;
+}
+
+p{
+  font-family: openSans;
+  font-size: 24px;
+}
+
+.circle {
+    width: 300px; /* Twice the radius for the diameter */
+    height: 300px; /* Twice the radius for the diameter */
+    background-color: white;
+    border-radius: 50%;
+}
+
+.moon-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    background-color: black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.moon-phase {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.full-moon {
+    width: 100%;
+    height: 100%;
+}
+
+.half-moon {
+    width: 20%;
+    height: 100%;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.new-moon {
+    width: 50%;
+    height: 100%;
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%, 0% 100%, 0% 0%);
+}
+
+.crescent-moon {
+    width: 100%;
+    height: 100%;
+    background-color: white; /* Color of the moon */
+    border-radius: 50%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    box-sizing: border-box;
+    border: 20px solid #333; /* Border color to simulate the crescent shape */
+}
