@@ -52,15 +52,17 @@ function preload() {
 
 function playStars(){
   audios[0].play();
-  audios[0].volume = 0.1;
+  audios[0].volume = 0.05;
   audios[0].loop = true;
+  document.getElementById("clickStars").style.display = "none";
+  document.getElementById("buttonDIV").style.display = "none";
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   //color = color('rgba(255,255,255,0.29)');
 
-	for (var i = 0; i < 6; i++) {
+	for (var i = 0; i < 5; i++) {
 		stars[i] = new Star();
 	}
 }
@@ -77,6 +79,7 @@ function setup() {
 function draw() {
   frameRate(5);
   background(0);
+  cursor(ARROW);
 
 	for (var i = 0; i < stars.length; i++) {
 		stars[i].draw();
@@ -97,6 +100,8 @@ class Star {
 		this.size = 5;
 		this.t = random(TAU);
     this.audio;
+    this.playing = false;
+    this.growth = 4;
 	}
 
   clicked(x,y) {
@@ -115,14 +120,37 @@ class Star {
       let myIndex = stars.indexOf(this);
       console.log("clicked star number", myIndex );
       //text('good night', this.x, this.y);
-      audios[myIndex].play();
+      if ( this.playing == false){
+        audios[myIndex+1].play();
+        audios[myIndex+1].volume = 0.2;
+        audios[myIndex+1].loop = true;
+        this.playing = true;
+      } else {
+        audios[myIndex+1].pause();
+        this.playing = false;
+      }
     }
 
   }
 
 	draw() {
+
+    let me = createVector(this.x, this.y);
+    let mouse = createVector(mouseX, mouseY);
+    let dist = me.dist(mouse);
+    //let chosen;
+    if( dist <= this.size ) {
+      cursor(HAND);
+    }
+
 		this.t += 0.1;
-		var scale = this.size + sin(this.t) * 4;
+    if (this.playing){
+      this.t += 0.2;
+      //this.growth = 6;
+    } else {
+      //this.growth = 4;
+    }
+		var scale = this.size + sin(this.t) * this.growth;
 		noStroke();
 
 
