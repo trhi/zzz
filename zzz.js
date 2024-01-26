@@ -1,12 +1,66 @@
 
 var stars = [];
-//let color;
+let zzzs = [
+  'assets/audio/zzz0.mp3',
+  'assets/audio/zzz1.mp3',
+  'assets/audio/zzz2.mp3',
+  'assets/audio/zzz3.mp3',
+  'assets/audio/zzz4.mp3',
+  'assets/audio/zzz5.mp3'
+];
+let audios;
+
+function windowResized() {
+  location.reload();
+}
+
+function preload() {
+  zzzs.forEach( element => {
+    console.log("i went into foreach");
+    let audio = createAudio(element);
+
+    //audio.loop();
+    //audios.push(audio);
+  });
+
+  audios = document.querySelectorAll("audio");
+
+/*
+  var audioDiv = $('#audio');
+  for ( let i=0; i<observations.fragments.length; i++ ){
+    var audio = $( "<audio></audio>", {
+      id: i, //in order to later maps hairs to audio elements
+      src: observations.path+observations.fragments[i].filename,
+      txt: observations.fragments[i].text, //in order to get the hair-related text directly out of the audio element
+      preload: 'auto',
+      on: {
+        canplaythrough: function(event){//don't do anything
+        },//close canplaythrough:
+        ended: function(event){//don't do anything
+        }//close ended:
+      }//close on:
+    });//close var audio
+    audioDiv.append(audio);
+  }
+  */
+
+  //use selector to select all audios and put the in an array by index
+
+}//close preload
+
+
+
+function playStars(){
+  audios[0].play();
+  audios[0].volume = 0.1;
+  audios[0].loop = true;
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   //color = color('rgba(255,255,255,0.29)');
 
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < 6; i++) {
 		stars[i] = new Star();
 	}
 }
@@ -29,6 +83,11 @@ function draw() {
 	}
 }
 
+function mousePressed() {
+    stars.forEach( element => element.clicked(mouseX, mouseY) );
+    return false;
+}//close mousePressed
+
 
 // star class //
 class Star {
@@ -37,7 +96,29 @@ class Star {
 		this.y = random(20, windowHeight-20);
 		this.size = 5;
 		this.t = random(TAU);
+    this.audio;
 	}
+
+  clicked(x,y) {
+    //console.log("testing number of click events fired");
+    /*
+    if ( !x && !y ){
+      x = this.x;
+      y = this.y;
+    }
+    */
+    let me = createVector(this.x, this.y);
+    let mouse = createVector(x, y);
+    let dist = me.dist(mouse);
+    //let chosen;
+    if( dist <= this.size ) { //if taps within the radius of the circle
+      let myIndex = stars.indexOf(this);
+      console.log("clicked star number", myIndex );
+      //text('good night', this.x, this.y);
+      audios[myIndex].play();
+    }
+
+  }
 
 	draw() {
 		this.t += 0.1;
