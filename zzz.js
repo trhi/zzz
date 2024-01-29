@@ -63,17 +63,9 @@ function playStars(){
   audios[0].loop = true;
   document.getElementById("clickStars").style.display = "none";
   document.getElementById("buttonDIV").style.display = "none";
-
 }
 
 function setup() {
-
-  //createCanvas(windowWidth, windowHeight);
-  //imageMode(CENTER);
-  //color = color('rgba(255,255,255,0.29)');
-
-  //console.log("number of frames is:", starimage.numFrames() );
-
 }
 
 //there is a general background noise, something soothing, calming, that loops.
@@ -106,6 +98,9 @@ function draw() {
 }
 
 function mousePressed() {
+    if( document.getElementById("clickStars").style.display == "inline" ){
+      playStars();
+    }
     stars.forEach( element => element.clicked(mouseX, mouseY) );
     //console.log("clicked here:", mouseX, mouseY);
     return false;
