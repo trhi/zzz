@@ -87,7 +87,7 @@ function draw() {
     for (i=1; i<audios.length; i++){
       let randomTime = floor(random(0, 490));
       audios[i].currentTime = randomTime;
-      console.log("random is:", randomTime, "and currentTime was set to:", audios[i].currentTime, "for audio element:", audios[i].currentTime );
+      //console.log("random is:", randomTime, "and currentTime was set to:", audios[i].currentTime, "for audio element:", audios[i].currentTime );
     }
   }
 
@@ -131,7 +131,7 @@ class Star {
 
 		//this.t = random(TAU);
 
-    this.audio;
+    //this.audio;
     this.playing = false;
     //this.growth = 4;
 
@@ -152,9 +152,12 @@ class Star {
 
     if( dist <= this.size ) { //if taps within the radius of the circle
       let myIndex = stars.indexOf(this);
-      console.log("clicked star number", myIndex );
+      //console.log("clicked star number", myIndex );
       //text('good night', this.x, this.y);
       if ( this.playing == false ){
+        if ( audios[myIndex+1].currentTime > 493 ){
+          audios[myIndex+1].currentTime = 0;
+        }
         audios[myIndex+1].play();
         audios[myIndex+1].volume = 0.2;
         audios[myIndex+1].loop = true;
