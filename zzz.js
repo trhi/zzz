@@ -27,6 +27,9 @@ function preload() {
   zzzs.forEach( element => {
     console.log("i went into foreach");
     let audio = createAudio(element);
+    //let maxDuration = audio.duration;
+    //let randomPosition = random(0, duration);
+    audio.currentTime = random(0, 30);
 
     //audio.loop();
     //audios.push(audio);
@@ -46,6 +49,7 @@ function preload() {
 
   audios = document.querySelectorAll("audio");
 
+
   //starFULL = createImg("assets/img/star-full.gif");
   //starSHINE = createImg("assets/img/star-xl-1.gif");
 
@@ -59,9 +63,11 @@ function playStars(){
   audios[0].loop = true;
   document.getElementById("clickStars").style.display = "none";
   document.getElementById("buttonDIV").style.display = "none";
+
 }
 
 function setup() {
+
   //createCanvas(windowWidth, windowHeight);
   //imageMode(CENTER);
   //color = color('rgba(255,255,255,0.29)');
@@ -85,27 +91,19 @@ function draw() {
   //cursor(ARROW);
   //image(starimage, 0, 0);
 
+  if( frameCount == 1){
+    for (i=1; i<audios.length; i++){
+      let randomTime = floor(random(0, 490));
+      audios[i].currentTime = randomTime;
+      console.log("random is:", randomTime, "and currentTime was set to:", audios[i].currentTime, "for audio element:", audios[i].currentTime );
+    }
+  }
+
 	for (var i = 0; i < stars.length; i++) {
 		stars[i].draw();
 	}
 
 }
-
-function keyPressed() {
-  if (keyCode === ALT) {
-    stars[3].pause();
-  }
-}
-
-/*
-function mousePressed() {
-  starimage.pause();
-}
-
-function mouseReleased() {
-  starimage.play();
-}
-*/
 
 function mousePressed() {
     stars.forEach( element => element.clicked(mouseX, mouseY) );
@@ -117,8 +115,8 @@ function mousePressed() {
 // star class //
 class Star {
 	constructor(i) {
-		this.x = random(20, windowWidth-20);
-		this.y = random(20, windowHeight-20);
+		this.x = random(40, windowWidth-80);
+		this.y = random(40, windowHeight-80);
 
     this.full = createImg(`assets/img/star-full-${i+1}.gif?`);
     //this.full = loadImage("assets/img/star-full.gif?");
@@ -177,100 +175,13 @@ class Star {
   }//clicked
 
 	draw() {
-
-
-
     if( this.playing ){
-      //this.full.pause();
-
       this.shining.style('visibility', 'visible');
       this.full.style('visibility', 'hidden');
-
     } else {
-      //this.full.play();
-
       this.full.style('visibility', 'visible');
       this.shining.style('visibility', 'hidden');
-
     }
+	}//close draw
 
-/*
-    let me = createVector(this.x, this.y);
-    let mouse = createVector(mouseX, mouseY);
-    let dist = me.dist(mouse);
-    //let chosen;
-    if( dist <= this.size ) {
-      cursor(HAND);
-    }
-    */
-
-/*
-		this.t += 0.1;
-    if (this.playing){
-      this.t += 0.2;
-      //this.growth = 6;
-    } else {
-      //this.growth = 4;
-    }
-		var scale = this.size + sin(this.t) * this.growth;
-    */
-/*
-    var scale = this.size + sin(this.t) * this.growth;
-
-		noStroke();
-
-
-    drawingContext.shadowBlur = 50;
-    drawingContext.shadowColor = 'white';
-    fill(color('rgba(255,255,255,1)'));
-
-    push();
-    //translate(width * 0.5, height * 0.5);
-    //rotate(frameCount / 50.0);
-    star(this.x, this.y, scale, scale+5, 40);
-    pop();
-
-
-    drawingContext.shadowBlur = 30;
-    drawingContext.shadowColor = 'white';
-    fill(color('rgba(255,255,255,1)'));
-
-    push();
-    //translate(width * 0.5, height * 0.5);
-    //rotate(frameCount / 50.0);
-    star(this.x, this.y, scale, scale+5, 40);
-    pop();
-    */
-
-/*
-      drawingContext.shadowBlur = 50;
-      drawingContext.shadowColor = 'white';
-      fill(color('rgba(255,255,255,1)'));
-  		//ellipse(this.x, this.y, scale, scale);
-
-      drawingContext.shadowBlur = 30;
-      drawingContext.shadowColor = 'white';
-      fill(color('rgba(255,255,255,1)'));
-  		//ellipse(this.x, this.y, scale, scale);
-
-*/
-	}
-
-
-
-}
-
-function star(x, y, radius1, radius2, npoints) {
-  let angle = TWO_PI / npoints;
-  let halfAngle = angle / 2.0;
-  beginShape();
-  for (let a = 0; a < TWO_PI; a += angle) {
-    let sx = x + cos(a) * radius2;
-    let sy = y + sin(a) * radius2;
-    vertex(sx, sy);
-    sx = x + cos(a + halfAngle) * radius1;
-    sy = y + sin(a + halfAngle) * radius1;
-    vertex(sx, sy);
-  }
-  endShape(CLOSE);
 }
