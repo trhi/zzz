@@ -98,7 +98,7 @@ function draw() {
 }
 
 function mousePressed() {
-    if( document.getElementById("clickStars").style.display == "block" ){
+    if( document.getElementById("clickStars").style.display == "" ){
       playStars();
     }
     stars.forEach( element => element.clicked(mouseX, mouseY) );
