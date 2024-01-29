@@ -143,6 +143,7 @@ class Star {
       cursor(HAND);
     }
 
+/*
 		this.t += 0.1;
     if (this.playing){
       this.t += 0.2;
@@ -151,6 +152,10 @@ class Star {
       //this.growth = 4;
     }
 		var scale = this.size + sin(this.t) * this.growth;
+    */
+
+    var scale = this.size + sin(this.t) * this.growth;
+
 		noStroke();
 
 
