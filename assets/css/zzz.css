@@ -8,6 +8,7 @@
 body{
  background-color: black;
  margin: 0;
+ overflow: hidden;
 }
 
 #buttonDIV{
@@ -29,6 +30,14 @@ body{
   width: auto;
   display: block;
   margin: 0 auto;
+}
+
+img{
+
+}
+
+img:hover{
+  cursor: pointer;
 }
 
 @media screen and (max-width: 992px) {

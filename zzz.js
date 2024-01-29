@@ -8,7 +8,16 @@ let zzzs = [
   'assets/audio/zzz4.mp3',
   'assets/audio/zzz5.mp3'
 ];
+let starsShining = [
+  "assets/img/star-full-1.gif",
+  "assets/img/star-full-2.gif",
+  "assets/img/star-full-3.gif",
+  "assets/img/star-full-4.gif",
+  "assets/img/star-full-5.gif"
+]
 let audios;
+let starFULL, starSHINE;
+let starimage;
 
 function windowResized() {
   location.reload();
@@ -23,28 +32,22 @@ function preload() {
     //audios.push(audio);
   });
 
-  audios = document.querySelectorAll("audio");
-
 /*
-  var audioDiv = $('#audio');
-  for ( let i=0; i<observations.fragments.length; i++ ){
-    var audio = $( "<audio></audio>", {
-      id: i, //in order to later maps hairs to audio elements
-      src: observations.path+observations.fragments[i].filename,
-      txt: observations.fragments[i].text, //in order to get the hair-related text directly out of the audio element
-      preload: 'auto',
-      on: {
-        canplaythrough: function(event){//don't do anything
-        },//close canplaythrough:
-        ended: function(event){//don't do anything
-        }//close ended:
-      }//close on:
-    });//close var audio
-    audioDiv.append(audio);
+  for (var i = 0; i < 5; i++) {
+    stars[i] = new Star();
   }
   */
 
-  //use selector to select all audios and put the in an array by index
+  for (var i = 0; i < 5; i++) {
+    stars[i] = new Star(i);
+  }
+
+  //starimage = loadImage("assets/img/star-full.gif");
+
+  audios = document.querySelectorAll("audio");
+
+  //starFULL = createImg("assets/img/star-full.gif");
+  //starSHINE = createImg("assets/img/star-xl-1.gif");
 
 }//close preload
 
@@ -59,12 +62,12 @@ function playStars(){
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  //createCanvas(windowWidth, windowHeight);
+  //imageMode(CENTER);
   //color = color('rgba(255,255,255,0.29)');
 
-	for (var i = 0; i < 5; i++) {
-		stars[i] = new Star();
-	}
+  //console.log("number of frames is:", starimage.numFrames() );
+
 }
 
 //there is a general background noise, something soothing, calming, that loops.
@@ -79,29 +82,66 @@ function setup() {
 function draw() {
   frameRate(5);
   background(0);
-  cursor(ARROW);
+  //cursor(ARROW);
+  //image(starimage, 0, 0);
 
 	for (var i = 0; i < stars.length; i++) {
 		stars[i].draw();
 	}
+
 }
+
+function keyPressed() {
+  if (keyCode === ALT) {
+    stars[3].pause();
+  }
+}
+
+/*
+function mousePressed() {
+  starimage.pause();
+}
+
+function mouseReleased() {
+  starimage.play();
+}
+*/
 
 function mousePressed() {
     stars.forEach( element => element.clicked(mouseX, mouseY) );
+    //console.log("clicked here:", mouseX, mouseY);
     return false;
 }//close mousePressed
 
 
 // star class //
 class Star {
-	constructor() {
+	constructor(i) {
 		this.x = random(20, windowWidth-20);
 		this.y = random(20, windowHeight-20);
-		this.size = 5;
-		this.t = random(TAU);
+
+    this.full = createImg(`assets/img/star-full-${i+1}.gif?`);
+    //this.full = loadImage("assets/img/star-full.gif?");
+
+    //this.full =
+    this.shining = createImg("assets/img/star-xl-1.gif?");
+    //this.shining = loadImage("assets/img/star-xl-1.gif?");
+
+    this.full.position(this.x, this.y);
+    this.full.style('border-radius', '50%');
+
+    this.shining.position(this.x, this.y);
+    this.shining.style('border-radius', '50%');
+    this.shining.style('visibility', 'hidden');
+
+		this.size = 10;
+
+		//this.t = random(TAU);
+
     this.audio;
     this.playing = false;
-    this.growth = 4;
+    //this.growth = 4;
+
 	}
 
   clicked(x,y) {
@@ -112,29 +152,49 @@ class Star {
       y = this.y;
     }
     */
-    let me = createVector(this.x, this.y);
+    let me = createVector(this.x+40, this.y+40);
     let mouse = createVector(x, y);
     let dist = me.dist(mouse);
     //let chosen;
+
     if( dist <= this.size ) { //if taps within the radius of the circle
       let myIndex = stars.indexOf(this);
       console.log("clicked star number", myIndex );
       //text('good night', this.x, this.y);
-      if ( this.playing == false){
+      if ( this.playing == false ){
         audios[myIndex+1].play();
         audios[myIndex+1].volume = 0.2;
         audios[myIndex+1].loop = true;
         this.playing = true;
+        //this.image = this.shining;
       } else {
         audios[myIndex+1].pause();
         this.playing = false;
+        //this.image = this.full;
       }
-    }
+    }//if dist
 
-  }
+  }//clicked
 
 	draw() {
 
+
+
+    if( this.playing ){
+      //this.full.pause();
+
+      this.shining.style('visibility', 'visible');
+      this.full.style('visibility', 'hidden');
+
+    } else {
+      //this.full.play();
+
+      this.full.style('visibility', 'visible');
+      this.shining.style('visibility', 'hidden');
+
+    }
+
+/*
     let me = createVector(this.x, this.y);
     let mouse = createVector(mouseX, mouseY);
     let dist = me.dist(mouse);
@@ -142,6 +202,7 @@ class Star {
     if( dist <= this.size ) {
       cursor(HAND);
     }
+    */
 
 /*
 		this.t += 0.1;
@@ -153,7 +214,7 @@ class Star {
     }
 		var scale = this.size + sin(this.t) * this.growth;
     */
-
+/*
     var scale = this.size + sin(this.t) * this.growth;
 
 		noStroke();
@@ -179,6 +240,7 @@ class Star {
     //rotate(frameCount / 50.0);
     star(this.x, this.y, scale, scale+5, 40);
     pop();
+    */
 
 /*
       drawingContext.shadowBlur = 50;
