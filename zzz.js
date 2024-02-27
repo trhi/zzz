@@ -42,7 +42,18 @@ function preload() {
   */
 
   for (var i = 0; i < 5; i++) {
-    stars[i] = new Star(i);
+    //give the lower and upper bounds of the y value for constructor at this point
+
+    //stars[i] = new Star(i); //initial
+    //stars[i] = new Star(i, xmin, xmax, ymin, ymax);
+
+    //limit range of y values for each star so that they aren't placed on top of eachother
+    let y1 = (40 + (0.2*i)*window.innerHeight); //offset min y value so that
+    //stars don't hit the top of the viewport
+    let y2 = (0.2*window.innerHeight + i*(0.2*window.innerHeight) - 80);
+    //offset the max y value so that stars don't go off the bottom of the screen
+    stars[i] = new Star(i, 40, windowWidth-80, y1, y2 );
+    //y boundaries: 40+ymin, ymax-80
   }
 
   //starimage = loadImage("assets/img/star-full.gif");
@@ -66,6 +77,8 @@ function playStars(){
 }
 
 function setup() {
+  createCanvas(0,0);
+  console.log(stars);
 }
 
 //there is a general background noise, something soothing, calming, that loops.
@@ -102,23 +115,27 @@ function mousePressed() {
       playStars();
     }
     stars.forEach( element => element.clicked(mouseX, mouseY) );
-    //console.log("clicked here:", mouseX, mouseY);
+    console.log("clicked here:", mouseX, mouseY);
     return false;
 }//close mousePressed
 
 
 // star class //
 class Star {
-	constructor(i) {
-		this.x = random(40, windowWidth-80);
-		this.y = random(40, windowHeight-80);
+	constructor(i, xmin, xmax, ymin, ymax) {
+		this.x = random(xmin, xmax);
+    //this.x = random(40, windowWidth-80); //original setting
+		//this.y = random(40, windowHeight-80); //original setting
+    this.y = random(ymin, ymax);
 
     this.full = createImg(`assets/img/star-full-${i+1}.gif?`);
     //this.full = loadImage("assets/img/star-full.gif?");
 
     //this.full =
-    this.shining = createImg("assets/img/star-xl-1.gif?");
-    //this.shining = loadImage("assets/img/star-xl-1.gif?");
+    //this.shining = createImg("assets/img/star-xl-1.gif?");
+    this.shining = createImg("assets/img/star-xl-2.gif?");
+
+    //this.shining = loadImage("assets/img/star-xl-1.gif?"); //??
 
     this.full.position(this.x, this.y);
     this.full.style('border-radius', '50%');
@@ -145,15 +162,19 @@ class Star {
       y = this.y;
     }
     */
-    let me = createVector(this.x+40, this.y+40);
+    //let me = createVector(this.x+40, this.y+40); //original
+    let me = createVector(this.x+40, this.y+10);  //offset click-GIF center position
     let mouse = createVector(x, y);
     let dist = me.dist(mouse);
     //let chosen;
 
     if( dist <= this.size ) { //if taps within the radius of the circle
       let myIndex = stars.indexOf(this);
-      //console.log("clicked star number", myIndex );
+      console.log("clicked star number", myIndex );
       //text('good night', this.x, this.y);
+
+      //ATTEMPT TO FIX THE NOT LOOOPING ON MOBILE PROBLEM:
+      //DID NOT FIX IT...
       if ( this.playing == false ){
         if ( audios[myIndex+1].currentTime > 493 ){
           audios[myIndex+1].currentTime = 0;
@@ -175,6 +196,7 @@ class Star {
 	draw() {
     if( this.playing ){
       this.shining.style('visibility', 'visible');
+      //do a RebeccaPurple overlay when clicked
       this.full.style('visibility', 'hidden');
     } else {
       this.full.style('visibility', 'visible');
