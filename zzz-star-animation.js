@@ -93,7 +93,7 @@ function mousePressed() {
 
 function keyPressed() {
   if (key === 's') {
-    saveGif('star.gif', 13); // 1 sec
+    saveGif('star.gif', 2); // 1 sec
   }
 }
 

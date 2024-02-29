@@ -128,7 +128,9 @@ class Star {
 		//this.y = random(40, windowHeight-80); //original setting
     this.y = random(ymin, ymax);
 
-    this.full = createImg(`assets/img/star-full-${i+1}.gif?`);
+    //this.full = createImg(`assets/img/star-full-${i+1}.gif?`);
+    this.full = createImg(`assets/img/star-f${i+1}.gif?`);
+    //this.full = createImg(`assets/img/star-f1.gif?`);
     //this.full = loadImage("assets/img/star-full.gif?");
 
     //this.full =
