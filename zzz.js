@@ -144,7 +144,7 @@ class Star {
     this.shining.style('border-radius', '50%');
     this.shining.style('visibility', 'hidden');
 
-		this.size = 10;
+		this.size = 30;
 
 		//this.t = random(TAU);
 
