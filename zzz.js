@@ -146,7 +146,7 @@ class Star {
     this.shining.style('border-radius', '50%');
     this.shining.style('visibility', 'hidden');
 
-		this.size = 30;
+		this.size = 40;//used to be 10, 30, which was too small
 
 		//this.t = random(TAU);
 
@@ -165,7 +165,8 @@ class Star {
     }
     */
     //let me = createVector(this.x+40, this.y+40); //original
-    let me = createVector(this.x+40, this.y+10);  //offset click-GIF center position
+    //let me = createVector(this.x+40, this.y+10);  //click centers slightly below star
+    let me = createVector(this.x+40, this.y);  //offset click-GIF center position
     let mouse = createVector(x, y);
     let dist = me.dist(mouse);
     //let chosen;
